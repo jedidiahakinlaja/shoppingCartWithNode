@@ -1,0 +1,32 @@
+[
+    {
+        "id":1,
+        "product":"milk",
+        "data":300,
+        "price":500
+    },
+    {
+        "id":2,
+        "product":"Indonmie",
+        "data":500,
+        "price":1000
+    },
+    {
+        "id":3,
+        "product":"Milo",
+        "data":300,
+        "price":500
+    },
+    {
+        "id":4,
+        "product":"CokeCola",
+        "data":1000,
+        "price":500
+    },
+    {
+        "id":5,
+        "product":"Sardine",
+        "data":1000,
+        "price":500
+    }
+]
