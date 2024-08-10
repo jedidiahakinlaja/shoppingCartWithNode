@@ -41,7 +41,10 @@
 					<th>Product</th>
 					<th>Data</th>
 					<th>Price</th>
-					<th>Action</th>
+					<% if(user.role==='admin'){ %>	<th>Action</th>  <% }
+					else{ %>  
+					  <div></div>
+				   <% } %>
 				</tr>
 			</thead>
 			<tbody>
@@ -60,6 +63,8 @@
 							<%= output.price %>
 						</td>
 						<td>
+							<% if(user.role==='admin'){ %>
+					
 
 							<button type="button" class="update btn btn-warning" data-toggle="modal" data-target="#myModal"
                               id="<%=output._id %>">
@@ -71,6 +76,9 @@
 								delete
 							</button>
 						</td>
+						else{ %>  
+							<div></div>
+						 <% } %>
 					</tr>
 					<% }); %>
 
