@@ -3,6 +3,7 @@ const router = express.Router()
 const bodyParser = require("body-parser")
 const bcrypt = require("bcryptjs")
 const User = require("../model/user")
+const Cart = require("../model/shoppingcartModel")
 const jwt = require("jsonwebtoken")
 const config = require("../config")
 const LocalStorage = require("node-localstorage").LocalStorage
@@ -27,6 +28,83 @@ exports.postRegister=(req,res)=>{
         console.log(token)
     })
     res.redirect("/")
+}
+
+
+exports.addUser = (req, res) => {
+    const { name,  password, email, role } = req.body;
+    
+    let userFound;
+    User.findOne({
+        email
+    })
+    .then(user=>{
+
+         userFound= user;
+
+        if(user){
+            userFound= user;
+            if(user.email!=email){
+                
+                console.log(email)
+                bcrypt.hash(password,10)
+                .then(hash=>{
+                  const userObj = new User ({
+                      name,
+                      email,
+                      password:hash,
+                      role
+                  });
+           
+                  userObj.save()
+                  .then(response => {
+                    res.redirect("/profile")
+                })
+                .catch( err => {
+                    res.status(500).json({ error: err })
+                })
+                
+              })    
+
+            }
+           return  res.status(500).json("email found")
+                
+        }
+
+        if(!user){
+            bcrypt.hash(password,10)
+                .then(hash=>{
+                  const userObj = new User ({
+                    name,
+                    email,
+                    password:hash,
+                    role
+                  });
+           
+                  userObj.save()
+                  .then(response => {
+                    // res.status(200).json({
+                    //     message: "User Details Saved Successfully",
+                    //     signup: response
+                    // }) 
+                    res.redirect("/profile")
+                })
+                .catch( err => {
+                    res.status(500).json({ error: err })
+                })
+                
+              })      
+        }
+
+
+       
+       
+       
+    })
+
+           
+   
+    
 }
 
 
@@ -57,7 +135,8 @@ exports.postLogin=(req,res)=>{
                 expiresIn: 86400
             })
             localStorage.setItem("authToken", token)
-            res.redirect("/profile")  // Changed to absolute path
+            res.redirect("/profile")
+              // Changed to absolute path
         })
 
     })
@@ -80,7 +159,17 @@ exports.postProfile=(req,res)=>{
             if (!user) {
                 res.redirect("/")
             }
-            res.render("dashboard.ejs", { user })
+
+            Cart.find()
+            .then(response => {
+                res.render("dashboard.ejs", { user, response })
+                
+            })
+            .catch(err => {
+                return res.send({ msg: "Error occured" })
+            })
+            // res.render("dashboard.ejs", { user, response })
+
         })
 
         .catch(err => {
@@ -88,6 +177,19 @@ exports.postProfile=(req,res)=>{
         })
     })
 }
+
+
+// exports.getCart = (req, res) => {
+    
+//     Cart.find()
+//         .then(response => {
+//             // res.render("dashboard.ejs", { response })
+//             console.log(response);
+//         })
+//         .catch(err => {
+//             return res.send({ msg: "Error occured" })
+//         })
+// }
 
 
 
