@@ -12,22 +12,63 @@ localStorage = new LocalStorage("../scratch")
 
 
 exports.postRegister=(req,res)=>{
-    const role = 'user';
-    const hashedPassword = bcrypt.hashSync(req.body.password, 8)
-    console.log(hashedPassword)
-    User.create({
-        name: req.body.name,
-        email: req.body.email,
-        password: hashedPassword,
-        role:role
-    }).then((registeredUser) => {
-        console.log("registeredUser", registeredUser)
-        var token = jwt.sign({ id: registeredUser._id }, config.secret, {
-            expiresIn: 86400
-        })
-        console.log(token)
+    const { name,  password, email, role } = req.body;
+    let userFound;
+    User.findOne({
+        email
     })
-    res.redirect("/")
+    .then(user=>{
+        userFound= user;
+
+        if(user){
+            userFound= user;
+            if(user.email!=email){
+                const role = 'user';
+                const hashedPassword = bcrypt.hashSync(req.body.password, 8)
+                console.log(hashedPassword)
+                User.create({
+                    name: req.body.name,
+                    email: req.body.email,
+                    password: hashedPassword,
+                    role:role
+                }).then((registeredUser) => {
+                    console.log("registeredUser", registeredUser)
+                    var token = jwt.sign({ id: registeredUser._id }, config.secret, {
+                        expiresIn: 86400
+                    })
+                    console.log(token)
+                })
+                res.redirect("/")
+            }
+           return  res.status(500).json("email found")
+                
+        }
+
+
+        if(!user){
+            userFound= user;
+                const role = 'user';
+                const hashedPassword = bcrypt.hashSync(req.body.password, 8)
+                console.log(hashedPassword)
+                User.create({
+                    name: req.body.name,
+                    email: req.body.email,
+                    password: hashedPassword,
+                    role:role
+                }).then((registeredUser) => {
+                    console.log("registeredUser", registeredUser)
+                    var token = jwt.sign({ id: registeredUser._id }, config.secret, {
+                        expiresIn: 86400
+                    })
+                    console.log(token)
+                })
+                res.redirect("/")
+              
+        }
+
+    })
+
+  
 }
 
 
@@ -83,10 +124,6 @@ exports.addUser = (req, res) => {
            
                   userObj.save()
                   .then(response => {
-                    // res.status(200).json({
-                    //     message: "User Details Saved Successfully",
-                    //     signup: response
-                    // }) 
                     res.redirect("/profile")
                 })
                 .catch( err => {
