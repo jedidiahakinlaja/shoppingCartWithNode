@@ -199,7 +199,17 @@ exports.postProfile=(req,res)=>{
 
             Cart.find()
             .then(response => {
-                res.render("dashboard.ejs", { user, response })
+                if (!response) {
+                    res.redirect("/")
+                }
+                User.find()
+                .then(userList=>{
+                    if(!userList){
+                        res.redirect("/")
+                    }
+                    res.render("dashboard.ejs", { user, response, userList })
+                })
+              
                 
             })
             .catch(err => {

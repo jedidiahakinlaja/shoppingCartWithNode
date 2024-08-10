@@ -76,6 +76,7 @@
 								delete
 							</button>
 						</td>
+						<% }
 						else{ %>  
 							<div></div>
 						 <% } %>
@@ -90,7 +91,7 @@
 		<% if(user.role==='admin'){ %>
 			<div class="container">
 				<div class="row">
-					<div class="col-sm-3 curve">
+					<div class="col-sm-4 curve">
 						<form class="validate-form" action="/postCart" method="POST">
 							<span class="login100-form-title p-b-26">
 								Add List
@@ -128,7 +129,7 @@
 					</div>
 	
 	
-					<div class="offset-md-2 col-sm-3 curve">
+					<div class="offset-md-3 col-sm-4 curve">
 						<form class="validate-form" action="/addUser" method="POST">
 							<span class="login100-form-title p-b-26">
 								Add User
@@ -172,6 +173,45 @@
 					</div>
 				</div>
 		</div> 
+
+		<hr>
+
+		<div class="container" >
+
+				<h1>User List</h1>
+			<table class="table table-bordered" id="myTable" style="margin-bottom: 12px;">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Email</th>
+						<th>Role</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% userList.forEach(output=> { %>
+						<tr>
+							<td>
+								<%= output.name %>
+							</td>
+							<td>
+								<%= output.email %>
+							</td>
+							<td>
+								<%= output.role %>
+							</td>
+							
+						</tr>
+						<% }); %>
+	
+				</tbody>
+			</table>
+	
+		</div>	
+
+
+<hr>
+
+
 		  <% }
 		  else{ %>  
 			<div></div>
@@ -197,21 +237,21 @@
                 <form action="/update_user" method="PUT" id="update_user">
 
                   <div class="form-group">
-                    <label for="name">Name:</label>
-                    <input type="text" class="form-control input" class="" id="update_id" placeholder="Enter First name" name="id"
+                    <label for="name">Id:</label>
+                    <input type="number" class="form-control input" class="" id="update_id" placeholder="Enter Id" name="id"
                       disabled>
                   </div>
                   <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="text" class="form-control input" id="update_product" placeholder="Enter Email" name="product">
+                    <label for="text">Product:</label>
+                    <input type="text" class="form-control input" id="update_product" placeholder="Enter product" name="product">
                   </div>
                   <div class="form-group">
-                    <label for="phone">Phone:</label>
-                    <input type="email" class="form-control input" id="update_data" placeholder="Enter phone" name="data">
+                    <label for="phone">Data:</label>
+                    <input type="number" class="form-control input" id="update_data" placeholder="Enter data" name="data">
                   </div>
 				  <div class="form-group">
-                    <label for="phone">Phone:</label>
-                    <input type="email" class="form-control input" id="update_price" placeholder="Enter phone" name="price">
+                    <label for="price">Price:</label>
+                    <input type="number" class="form-control input" id="update_price" placeholder="Enter price" name="price">
                   </div>
 
                 </form>
