@@ -1,0 +1,6 @@
+.curve{
+    border:2px solid red;
+    padding: 20px;
+    border-radius: 10%;
+    box-shadow: 2px 5px 5px;
+}
